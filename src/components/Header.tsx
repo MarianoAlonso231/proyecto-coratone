@@ -43,18 +43,24 @@ const Header: React.FC = () => {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/95 shadow-lg backdrop-blur-sm' : 'bg-transparent'
+
+      
+
+        scrolled ? 'bg-white/100 shadow-lg backdrop-blur-sm' : 'bg-transparent'
+
       }`}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <a 
           href="#" 
           className="flex items-center gap-2"
         >
           <img 
-            src="https://raw.githubusercontent.com/stackblitz/webcontainer-core/main/assets/coratone-logo.png" 
+                    
+            src="/coratone-logo.png" 
             alt="Coratone" 
-            className="h-12 w-auto"
+            className="h-20 w-32"
+
           />
         </a>
 
