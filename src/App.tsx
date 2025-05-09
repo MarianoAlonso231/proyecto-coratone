@@ -13,9 +13,9 @@ function App() {
     <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
-      <ProductSection id="rings" title="Anillos" products={rings} />
-      <ProductSection id="necklaces" title="Collares" products={necklaces} />
-      <ProductSection id="bracelets" title="Pulseras" products={bracelets} />
+      <ProductSection id="anillos" title="Anillos" products={rings} />
+      <ProductSection id="collares" title="Collares" products={necklaces} />
+      <ProductSection id="pulseras" title="Pulseras" products={bracelets} />
       <Footer />
     </div>
   );

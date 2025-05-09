@@ -19,6 +19,27 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navItems = [
+    { name: 'Anillos', href: 'anillos' },
+    { name: 'Collares', href: 'collares' },
+    { name: 'Pulseras', href: 'pulseras' }
+  ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -36,14 +57,14 @@ const Header: React.FC = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          {['Anillos', 'Collares', 'Brazaletes'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+          {navItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => scrollToSection(item.href)}
               className="font-medium text-gray-600 hover:text-purple-800 transition-colors duration-200"
             >
-              {item}
-            </a>
+              {item.name}
+            </button>
           ))}
         </nav>
 
@@ -62,15 +83,14 @@ const Header: React.FC = () => {
         <div className="md:hidden bg-white">
           <div className="container mx-auto px-4 py-4">
             <div className="flex flex-col space-y-4">
-              {['Anillos', 'Collares', 'Brazaletes'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="font-medium text-gray-600 hover:text-purple-800 transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => scrollToSection(item.href)}
+                  className="font-medium text-gray-600 hover:text-purple-800 transition-colors duration-200 text-left"
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </button>
               ))}
             </div>
           </div>
