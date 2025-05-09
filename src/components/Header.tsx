@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Diamond, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,10 +49,13 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <a 
           href="#" 
-          className="flex items-center gap-2 text-2xl font-serif text-purple-800"
+          className="flex items-center gap-2"
         >
-          <Diamond size={28} />
-          <span className="font-semibold">Coratone</span>
+          <img 
+            src="/coratone-logo.png" 
+            alt="Coratone" 
+            className="h-12 w-auto"
+          />
         </a>
 
         {/* Desktop Navigation */}

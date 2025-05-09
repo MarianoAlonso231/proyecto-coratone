@@ -1,5 +1,5 @@
 import React from 'react';
-import { Diamond, FacebookIcon, TwitterIcon, InstagramIcon } from 'lucide-react';
+import { FacebookIcon, TwitterIcon, InstagramIcon } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -7,9 +7,12 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center gap-2 text-2xl font-serif text-purple-800 mb-4">
-              <Diamond size={24} />
-              <span className="font-semibold">Coratone</span>
+            <div className="mb-4">
+              <img 
+                src="/coratone-logo.png" 
+                alt="Coratone" 
+                className="h-12 w-auto"
+              />
             </div>
             <p className="text-gray-500 mb-6 max-w-xs">
               Joyería.
