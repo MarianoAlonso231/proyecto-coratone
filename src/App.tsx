@@ -1,4 +1,3 @@
-
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ProductSection from './components/ProductSection';
@@ -11,7 +10,7 @@ function App() {
   const bracelets = getProductsByCategory('bracelet');
 
   return (
-    <div className="min-h-screen bg-[#121212]">
+    <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
       <ProductSection id="rings" title="Anillos" products={rings} />
