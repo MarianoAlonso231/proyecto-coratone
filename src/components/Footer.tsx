@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
           <div>
             <div className="mb-4">
               <img 
-                src="/coratone-logo.png" 
+                src="https://raw.githubusercontent.com/stackblitz/webcontainer-core/main/assets/coratone-logo.png" 
                 alt="Coratone" 
                 className="h-12 w-auto"
               />
