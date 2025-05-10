@@ -1,5 +1,7 @@
 import React from 'react';
-import { FacebookIcon, TwitterIcon, InstagramIcon } from 'lucide-react';
+
+import { FaInstagram } from 'react-icons/fa';
+
 
 const Footer: React.FC = () => {
   return (
@@ -15,45 +17,28 @@ const Footer: React.FC = () => {
               />
             </div>
             <p className="text-gray-500 mb-6 max-w-xs">
-              Joyería.
+             
             </p>
-            <div className="flex space-x-4">
-              <a href="https://www.instagram.com/marianoalonso10" target="_blank" className="text-gray-400 hover:text-purple-800 transition-colors duration-200">
-                <InstagramIcon size={20} />
-              </a>
-              <a href="" className="text-gray-400 hover:text-purple-800 transition-colors duration-200">
-                <FacebookIcon size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-800 transition-colors duration-200">
-                <TwitterIcon size={20} />
-              </a>
+            <div className="flex space-x-5 mt-12">
+              <a href="https://www.instagram.com/coratoneaccesorios/" target="_blank" className="text-gray-400 hover:text-purple-800 transition-colors duration-200">
+                <FaInstagram size={40} />
+
+              </a>                           
             </div>
           </div>
           
           <div>
-            <h3 className="text-lg font-medium mb-4 text-gray-700">Links rápidos</h3>
-            <ul className="space-y-2">
-              {['Home', 'Rings', 'Necklaces', 'Bracelets', 'About Us'].map((item) => (
-                <li key={item}>
-                  <a 
-                    href={`#${item === 'Home' ? '' : item.toLowerCase()}`}
-                    className="text-gray-500 hover:text-purple-800 transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            
+           
           </div>
           
           <div>
             <h3 className="text-lg font-medium mb-4 text-gray-700">Contacto</h3>
-            <address className="not-italic text-gray-500">
-              <p className="mb-2">123 Luxury Lane</p>
-              <p className="mb-2">New York, NY 10001</p>
-              <p className="mb-4">Argentina</p>
+            <address className="not-italic text-gray-500">             
+              <p className="mb-2">Argentina</p>
+              <p className="mb-4">Tucumán, Alderetes</p>
               <p className="mb-2">Email: info@lumina.com</p>
-              <p>Teléfono: +1 (555) 123-4567</p>
+              <p>Teléfono: +54 9 3815 77-2509</p>
             </address>
           </div>
         </div>

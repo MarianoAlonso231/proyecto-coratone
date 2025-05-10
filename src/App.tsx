@@ -3,6 +3,7 @@ import HeroSection from './components/HeroSection';
 import ProductSection from './components/ProductSection';
 import Footer from './components/Footer';
 import { getProductsByCategory } from './data/products';
+import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
   const rings = getProductsByCategory('ring');
@@ -17,6 +18,7 @@ function App() {
       <ProductSection id="collares" title="Collares" products={necklaces} />
       <ProductSection id="pulseras" title="Pulseras" products={bracelets} />
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
