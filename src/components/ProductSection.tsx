@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Slider from 'react-slick';
 import ProductCard from './ProductCard';
 import { Product } from '../types';
@@ -13,32 +13,28 @@ interface ProductSectionProps {
 }
 
 const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) => {
+  const sliderRef = useRef<Slider>(null);
+
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 5,
+    speed: 800,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
-    prevArrow: <ChevronLeft className="text-purple-800 w-8 h-8" />,
-    nextArrow: <ChevronRight className="text-purple-800 w-8 h-8" />,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
     responsive: [
       {
         breakpoint: 1536,
-        settings: {
-          slidesToShow: 4,
-        }
-      },
-      {
-        breakpoint: 1280,
         settings: {
           slidesToShow: 3,
         }
       },
       {
-        breakpoint: 768,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
         }
@@ -52,6 +48,18 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) 
     ]
   };
 
+  const handleModalOpen = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPause();
+    }
+  };
+
+  const handleModalClose = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPlay();
+    }
+  };
+
   return (
     <section id={id} className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -60,17 +68,45 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) 
           <div className="w-16 h-1 bg-purple-800"></div>
         </div>
         
-        <div className="relative px-8">
-          <Slider {...sliderSettings}>
+        <div className="relative px-12">
+          <Slider ref={sliderRef} {...sliderSettings}>
             {products.map((product) => (
-              <div key={product.id} className="px-2">
-                <ProductCard product={product} />
+              <div key={product.id} className="px-3">
+                <ProductCard 
+                  product={product} 
+                  onModalOpen={handleModalOpen}
+                  onModalClose={handleModalClose}
+                />
               </div>
             ))}
           </Slider>
         </div>
       </div>
     </section>
+  );
+};
+
+const PrevArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <button
+      onClick={onClick}
+      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white rounded-full shadow-md transition-all duration-300 -translate-x-6"
+    >
+      <ChevronLeft className="text-purple-800 w-6 h-6" />
+    </button>
+  );
+};
+
+const NextArrow = (props: any) => {
+  const { onClick } = props;
+  return (
+    <button
+      onClick={onClick}
+      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-white/80 hover:bg-white rounded-full shadow-md transition-all duration-300 translate-x-6"
+    >
+      <ChevronRight className="text-purple-800 w-6 h-6" />
+    </button>
   );
 };
 

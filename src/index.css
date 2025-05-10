@@ -4,17 +4,17 @@
 
 .slick-prev,
 .slick-next {
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 40px !important;
   z-index: 10;
 }
 
 .slick-prev {
-  left: -5px;
+  left: -40px !important;
 }
 
 .slick-next {
-  right: -5px;
+  right: -40px !important;
 }
 
 .slick-prev:before,
@@ -22,10 +22,21 @@
   display: none;
 }
 
+.slick-dots {
+  bottom: -35px !important;
+}
+
 .slick-dots li button:before {
-  color: #7D3C98;
+  color: #7D3C98 !important;
+  opacity: 0.3;
+  font-size: 8px !important;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #7D3C98;
+  color: #7D3C98 !important;
+  opacity: 1;
+}
+
+.slick-track {
+  margin-left: 0 !important;
 }

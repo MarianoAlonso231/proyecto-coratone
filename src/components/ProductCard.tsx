@@ -4,9 +4,11 @@ import ProductModal from './ProductModal';
 
 interface ProductCardProps {
   product: Product;
+  onModalOpen?: () => void;
+  onModalClose?: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModalClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, price, imageUrl, description } = product;
 
@@ -15,6 +17,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       style: 'currency',
       currency: 'ARS',
     }).format(price);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    onModalOpen?.();
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    onModalClose?.();
   };
 
   return (
@@ -32,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <p className="text-purple-800 font-medium mb-3">{formatPrice(price)}</p>
           <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description}</p>
           <button 
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleOpenModal}
             className="w-full py-2 border border-purple-800 text-purple-800 rounded-md 
               hover:bg-purple-800 hover:text-white transition-colors duration-200"
           >
@@ -44,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <ProductModal 
         product={product}
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
       />
     </>
   );
