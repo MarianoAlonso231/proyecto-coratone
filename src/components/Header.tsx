@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   const navItems = [
     { name: 'Anillos', href: 'anillos' },
     { name: 'Collares', href: 'collares' },
-    { name: 'Pulseras', href: 'pulseras' }
+    { name: 'Pulseras', href: 'pulseras' }, 
   ];
 
   const scrollToSection = (id: string) => {
@@ -42,44 +42,52 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-
-      
-
-        scrolled ? 'bg-white/100 shadow-lg backdrop-blur-sm' : 'bg-transparent'
-
+      className={`fixed w-full z-50 transition-all duration-500 ${
+        scrolled 
+          ? 'bg-white/95 shadow-md backdrop-blur-sm py-2' 
+          : 'bg-transparent py-4'
       }`}
     >
-      <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        {/* Logo */}
         <a 
           href="#" 
-          className="flex items-center gap-2"
+          className="flex items-center"
         >
           <img 
-                    
             src="/coratone-logo.png" 
             alt="Coratone" 
-            className="h-20 w-32"
-
+            className={`transition-all duration-300 ${
+              scrolled ? 'h-16 w-auto' : 'h-20 w-auto'
+            }`}
           />
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
-          {navItems.map((item) => (
-            <button
-              key={item.name}
-              onClick={() => scrollToSection(item.href)}
-              className="font-medium text-gray-600 hover:text-purple-800 transition-colors duration-200"
-            >
-              {item.name}
-            </button>
-          ))}
+        <nav className="hidden md:flex items-center">
+          <div className="flex space-x-8">
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => scrollToSection(item.href)}
+                className={`font-light text-sm tracking-wider uppercase transition-colors duration-300 relative group ${
+                  scrolled ? 'text-gray-800' : 'text-white'
+                }`}
+              >
+                {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-purple-800 transition-all duration-300 group-hover:w-full"></span>
+              </button>
+            ))}
+          </div>
+          
+
         </nav>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-600"
+          className={`md:hidden transition-colors duration-300 ${
+            scrolled ? 'text-gray-800' : 'text-white'
+          }`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -89,18 +97,19 @@ const Header: React.FC = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex flex-col space-y-4">
+        <div className="md:hidden bg-white/95 backdrop-blur-sm shadow-lg absolute w-full left-0 top-full">
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex flex-col space-y-6">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="font-medium text-gray-600 hover:text-purple-800 transition-colors duration-200 text-left"
+                  className="font-light text-gray-800 hover:text-purple-800 transition-colors duration-300 text-lg tracking-wide"
                 >
                   {item.name}
                 </button>
               ))}
+
             </div>
           </div>
         </div>
@@ -109,4 +118,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header
+export default Header;

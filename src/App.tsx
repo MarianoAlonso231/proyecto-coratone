@@ -16,7 +16,9 @@ function App() {
       <HeroSection />
       <ProductSection id="anillos" title="Anillos" products={rings} />
       <ProductSection id="collares" title="Collares" products={necklaces} />
-      <ProductSection id="pulseras" title="Pulseras" products={bracelets} />
+
+      <ProductSection id="aritos" title="Aritos" products={bracelets} />
+
       <Footer />
       <WhatsAppButton />
     </div>
