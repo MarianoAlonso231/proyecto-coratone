@@ -6,18 +6,18 @@ import { getProductsByCategory } from './data/products';
 import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
-  const rings = getProductsByCategory('ring');
-  const necklaces = getProductsByCategory('necklace');
-  const bracelets = getProductsByCategory('bracelet');
+  const anillos = getProductsByCategory('anillos');
+  const collares = getProductsByCategory('collares');
+  const aritos = getProductsByCategory('aritos');
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <HeroSection />
-      <ProductSection id="anillos" title="Anillos" products={rings} />
-      <ProductSection id="collares" title="Collares" products={necklaces} />
+      <ProductSection id="anillos" title="Anillos" products={anillos} />
+      <ProductSection id="collares" title="Collares" products={collares} />
 
-      <ProductSection id="aritos" title="Aritos" products={bracelets} />
+      <ProductSection id="aritos" title="Aritos" products={aritos} />
 
       <Footer />
       <WhatsAppButton />
