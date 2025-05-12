@@ -2,10 +2,10 @@ export interface Product {
   id: string; // UUID generado por Supabase
   name: string;
   category: 'anillos' | 'aritos' | 'collares';
-  size?: string; // Opcional para anillos
+  size?: string| null;
   stock: number;
   price: number;
-  imageUrl?: string;
+  image_url: string;
   description?: string;
   created_at: string; // Fecha en formato string o Date
 }

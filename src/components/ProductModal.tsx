@@ -36,7 +36,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="relative h-64 md:h-full">
             <img
-              src={product.imageUrl}
+              src={product.image_url}
               alt={product.name}
               className="w-full h-full object-cover"
             />
