@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { X } from 'lucide-react';
 import { Product } from '../types/product';
 
@@ -15,19 +15,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
     new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(price);
 
   const isLowStock = product.stock < 5; // ✅ Detecta productos con stock bajo
-  const [imageSrc, setImageSrc] = useState(product.image_url || 'URL_DE_IMAGEN_DEFECTO'); // ✅ Manejo inicial de imagen
-
-  useEffect(() => {
-    if (!product.image_url) {
-      setImageSrc('URL_DE_IMAGEN_DEFECTO');
-    } else {
-      fetch(product.image_url, { method: 'HEAD' })
-        .then((res) => {
-          if (!res.ok) throw new Error(`Imagen inaccesible (${res.status})`);
-        })
-        .catch(() => setImageSrc('URL_DE_IMAGEN_DEFECTO'));
-    }
-  }, [product.image_url]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -44,10 +31,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
         <div className="grid grid-cols-1 md:grid-cols-2 flex-grow">
           <div className="relative h-64 md:h-full bg-gray-100 flex items-center justify-center">
             <img
-              src={imageSrc}
+              src={product.image_url}
               alt={product.name}
-              className="w-full h-full object-cover rounded-md"
-              onError={() => setImageSrc('URL_DE_IMAGEN_DEFECTO')}
+              className="w-full h-full object-contain"
             />
           </div>
 
@@ -67,7 +53,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
           </div>
         </div>
 
-        {/* ✅ Botón de WhatsApp al fondo del modal */}
+        {/* ✅ Botón de WhatsApp ahora está al fondo del modal */}
         <div className="p-6 md:p-8 bg-white">
           <a
             href={`https://wa.me/5493816080780?text=Hola! Me interesa el producto ${product.name} (${formatPrice(product.price)})`}
