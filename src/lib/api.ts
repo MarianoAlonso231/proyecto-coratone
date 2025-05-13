@@ -14,7 +14,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
   return data || [];
 }
-
+  
 // Agregar producto
 export async function addProduct(product: Product): Promise<Product | null> {
   const { data, error } = await supabase
