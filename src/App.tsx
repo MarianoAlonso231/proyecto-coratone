@@ -10,6 +10,7 @@ import { fetchProducts } from './lib/api'; // Obtiene productos dinámicamente
 import { Product } from './types/product';
 import Login from './pages/Login'; // Página de inicio de sesión
 import AdminRoute from './routes/AdminRoute'; // Ruta protegida para administradores
+import Layout from './components/Layout'; // ✅ Ajusta la ruta si es diferente
 
 function App() {
   const [products, setProducts] = useState<{ anillos: Product[]; collares: Product[]; aritos: Product[] }>({
@@ -17,6 +18,7 @@ function App() {
     collares: [],
     aritos: [],
   });
+
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -35,7 +37,6 @@ function App() {
     fetchData();
   }, []);
 
-  // 🔥 Cierra sesión automáticamente al iniciar la app
   useEffect(() => {
     supabase.auth.signOut().then(() => console.log("✅ Sesión cerrada automáticamente al iniciar la app."));
   }, []);
@@ -46,8 +47,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-white">
-        <Header />
+      <Layout>
         <Routes>
           <Route
             path="/"
@@ -75,10 +75,9 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminRoute />} />
-          <Route path="*" element={<Navigate to="/" />} /> {/* 🔄 Redirige cualquier ruta desconocida a la página principal */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <Footer />
-      </div>
+      </Layout>
     </Router>
   );
 }
