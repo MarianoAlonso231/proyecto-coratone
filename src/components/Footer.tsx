@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Columna del logo e ícono alineados manualmente */}
-          <div className="ml-[60px]">
+          <div className="flex flex-col items-center md:items-start md:ml-[60px]">
             <img src="/coratone-logo.png" alt="Coratone" className="h-20 w-auto mb-4" />
             <div className="mt-8">
               <a
@@ -21,7 +21,10 @@ const Footer: React.FC = () => {
                 target="_blank"
                 className="text-gray-400 hover:text-purple-800 transition-colors duration-200"
               >
-                <FaInstagram size={40} />
+                <div className="flex items-center space-x-2">
+  <FaInstagram size={40} className="text-purple-800" />
+  <span className="text-gray-600 text-lg font-medium">Instagram</span>
+</div>
               </a>
             </div>
           </div>
@@ -30,7 +33,7 @@ const Footer: React.FC = () => {
           <div></div>
 
           {/* Columna de contacto */}
-          <div>
+          <div className="flex flex-col items-center md:items-start md:ml-[60px]">
             <h3 className="text-lg font-medium mb-4 text-gray-700">Contacto</h3>
             <address className="not-italic text-gray-500">
               <p className="mb-2">Argentina</p>

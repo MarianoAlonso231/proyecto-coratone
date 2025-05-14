@@ -1,6 +1,10 @@
-import React from 'react';
-import ProductCard from './ProductCard';
-import { Product } from '../types/product';
+import React from "react";
+import ProductCard from "./ProductCard";
+import { Product } from "../types/product";
+import { Swiper, SwiperSlide } from "swiper/react"; // ✅ Importación de Swiper
+import { Navigation } from "swiper/modules"; // ✅ Módulo de navegación
+import "swiper/css"; // ✅ Estilos base de Swiper
+import "swiper/css/navigation"; // ✅ Estilos para la navegación con flechas
 
 interface ProductSectionProps {
   title: string;
@@ -17,17 +21,26 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) 
           <div className="w-16 h-1 bg-purple-800"></div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-12">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <div key={product.id} className="px-3">
+        {products.length > 0 ? (
+          <Swiper
+            modules={[Navigation]} // ✅ Activamos la navegación manual
+            spaceBetween={20} // ✅ Espacio entre productos
+            slidesPerView={1} // ✅ Mostrar un producto por vista (puedes ajustar)
+            navigation // ✅ Agrega flechas de navegación
+            breakpoints={{
+              640: { slidesPerView: 2 }, // ✅ En pantallas pequeñas, mostrar 2 productos
+              1024: { slidesPerView: 3 }, // ✅ En pantallas grandes, mostrar 3 productos
+            }}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id}>
                 <ProductCard product={product} />
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-500">No hay productos disponibles.</p>
-          )}
-        </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <p className="text-center text-gray-500">No hay productos disponibles.</p>
+        )}
       </div>
     </section>
   );

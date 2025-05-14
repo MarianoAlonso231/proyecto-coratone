@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModal
         onMouseLeave={() => setIsHovering(false)}
       >
         {/* Badge para stock bajo */}
-        {stock > 0 && stock <= 5 && (
+        {stock > 0 && stock <= 3 && (
           <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
             ¡Últimas unidades!
           </div>

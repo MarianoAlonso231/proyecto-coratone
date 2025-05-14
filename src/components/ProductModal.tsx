@@ -17,7 +17,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
   const formatPrice = (price: number): string =>
     new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(price);
 
-  const isLowStock = product.stock < 5;
+  const isLowStock = product.stock < 3;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center font-[Poppins]">
@@ -55,7 +55,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
               <p className="text-green-600 text-xl font-bold mb-2">{formatPrice(product.price)}</p>
               <p className={`text-sm font-medium mb-4 ${isLowStock ? "text-red-500" : "text-green-700"}`}>
                 {isLowStock
-                  ? `⚠️ Stock bajo: ${product.stock} unidades`
+                  ? `⚠️ Stock bajo: ${product.stock} unidad/es`
                   : `Disponibles: ${product.stock}`}
               </p>
               <p className="text-gray-600 text-sm mb-6 leading-relaxed">
@@ -63,7 +63,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
               </p>
 
               {product.size && (
-                <p className="text-sm text-gray-600 font-medium">Tamaño: {product.size}</p>
+                <p className="text-sm text-gray-600 font-medium">Talle: {product.size}</p>
               )}
             </div>
           </div>
