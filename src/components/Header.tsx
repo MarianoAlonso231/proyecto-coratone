@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom"; // ✅ Importar useLocation
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import CartSidebar from "./CartSidebar";
@@ -7,6 +8,10 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const { cart } = useCart();
+  const location = useLocation(); // ✅ Obtener la ruta actual
+
+  // ✅ No mostrar el header en la página de login
+  if (location.pathname === "/login") return null;
 
   return (
     <header className="fixed w-full z-50 bg-white shadow-md py-2 border-b border-gray-100">
