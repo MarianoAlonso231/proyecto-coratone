@@ -44,13 +44,7 @@ const HeroSection: React.FC = () => {
             >
               Explorar Colección
             </a>
-            <a
-              href="#collares"
-              className="px-8 py-3 bg-transparent border-2 border-white text-white font-medium 
-              rounded-md hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm"
-            >
-              Ver Novedades
-            </a>
+            
           </div>
 
           {/* Scroll Down Indicator */}
