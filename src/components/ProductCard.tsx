@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Product } from '../types/product';
-import ProductModal from './ProductModal';
+import React, { useState, useEffect } from "react";
+import { Product } from "../types/product";
+import ProductModal from "./ProductModal";
+import { useCart } from "../context/CartContext"; // ✅ Importar el contexto del carrito
 
 interface ProductCardProps {
   product: Product;
@@ -10,20 +11,21 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModalClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState(product.image_url || 'URL_DE_IMAGEN_DEFECTO');
+  const [imageSrc, setImageSrc] = useState(product.image_url || "URL_DE_IMAGEN_DEFECTO");
   const { name, price, description } = product;
+  const { addToCart } = useCart(); // ✅ Obtener la función para agregar productos al carrito
 
   useEffect(() => {
-    if (imageSrc && imageSrc.trim() !== '') {
-      fetch(imageSrc, { method: 'HEAD' })
+    if (imageSrc && imageSrc.trim() !== "") {
+      fetch(imageSrc, { method: "HEAD" })
         .then((res) => {
           if (!res.ok) throw new Error(`Imagen inaccesible (${res.status})`);
         })
         .catch(() => {
-          setImageSrc('URL_DE_IMAGEN_DEFECTO');
+          setImageSrc("URL_DE_IMAGEN_DEFECTO");
         });
     }
-  }, [product.image_url]); // ✅ Evita recargar la imagen innecesariamente
+  }, [product.image_url]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -43,7 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModal
             src={imageSrc}
             alt={name}
             className="max-w-full h-64 object-contain transition-transform duration-500 ease-in-out group-hover:scale-105"
-            onError={() => setImageSrc('URL_DE_IMAGEN_DEFECTO')}
+            onError={() => setImageSrc("URL_DE_IMAGEN_DEFECTO")}
             crossOrigin="anonymous"
           />
         </div>
@@ -51,15 +53,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModal
           <h3 className="text-xl font-serif text-gray-800 mb-2">{name}</h3>
           <p className="text-purple-800 font-medium mb-3">
             {price
-              ? new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(price)
-              : 'Precio no disponible'}
+              ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(price)
+              : "Precio no disponible"}
           </p>
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description || 'Sin descripción'}</p>
+          <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description || "Sin descripción"}</p>
           <button
             onClick={handleOpenModal}
             className="w-full py-2 border border-purple-800 text-purple-800 rounded-md hover:bg-purple-800 hover:text-white transition-colors duration-300 active:scale-95"
           >
             Ver detalles
+          </button>
+          <button
+            onClick={() => addToCart(product)}
+            className="mt-2 w-full py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-600 hover:text-white transition-colors duration-300 active:scale-95"
+          >
+            Agregar al carrito
           </button>
         </div>
       </div>
