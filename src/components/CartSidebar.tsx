@@ -22,49 +22,49 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Overlay para cerrar al hacer clic fuera */}
+      {/* Fondo oscuro desenfocado */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={onClose}
         />
       )}
 
-      {/* Sidebar del carrito con altura reducida */}
+      {/* Sidebar claro */}
       <div
-        className={`fixed top-0 right-0 w-full sm:w-96 max-h-[80vh] rounded-bl-2xl rounded-tl-2xl bg-gray-900 text-white shadow-2xl border-l border-gray-700 transition-transform duration-300 z-50 flex flex-col ${
+        className={`fixed top-0 right-0 w-full sm:w-96 max-h-[80vh] rounded-bl-2xl rounded-tl-2xl bg-white text-gray-900 shadow-2xl border-l border-gray-200 transition-transform duration-300 z-50 flex flex-col font-[Poppins] ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="p-5 flex justify-between items-center border-b border-gray-700 bg-gray-800">
-          <h2 className="text-xl font-semibold tracking-wide">Tu Carrito</h2>
-          <button onClick={onClose} className="text-gray-300 hover:text-white transition">
+        <div className="p-5 flex justify-between items-center border-b border-gray-200 bg-gray-50">
+          <h2 className="text-xl font-semibold">Tu Carrito</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-black transition">
             <X size={24} />
           </button>
         </div>
 
-        {/* Lista de productos con imagen */}
-        <div className="p-5 space-y-4 overflow-y-auto flex-grow">
+        {/* Lista de productos */}
+        <div className="p-5 space-y-4 overflow-y-auto flex-grow bg-white">
           {cart.length > 0 ? (
             <ul className="space-y-4">
               {cart.map((item, index) => (
                 <li
-                  key={`${item.id}-${index}`} // 👈 Clave única combinando ID e índice
-                  className="flex items-center bg-gray-800 rounded-lg px-4 py-3 shadow-md hover:shadow-lg transition"
+                  key={`${item.id}-${index}`}
+                  className="flex items-center bg-gray-100 rounded-lg px-4 py-3 shadow-sm hover:shadow-md transition"
                 >
                   <img
                     src={item.image_url}
                     alt={item.name}
-                    className="w-16 h-16 rounded-md object-cover mr-3"
+                    className="w-16 h-16 rounded-md object-cover mr-3 border border-gray-200"
                   />
                   <div className="flex flex-col">
                     <p className="text-base font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-300">${item.price}</p>
+                    <p className="text-sm text-gray-500">${item.price}</p>
                   </div>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="text-red-400 hover:text-red-500 transition p-2 rounded-md bg-gray-700 ml-auto"
+                    className="text-red-500 hover:text-red-600 transition p-2 rounded-md bg-white ml-auto"
                   >
                     <Trash size={20} />
                   </button>
@@ -72,22 +72,24 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               ))}
             </ul>
           ) : (
-            <div className="text-center text-gray-300 text-sm bg-gray-800 rounded-md py-4 shadow-md">
+            <div className="text-center text-gray-500 text-sm bg-gray-100 rounded-md py-4 shadow-inner">
               Tu carrito está vacío.
             </div>
           )}
         </div>
 
         {/* Comprar */}
-        <div className="p-5 border-t border-gray-700 bg-gray-800 mt-auto">
+        <div className="p-5 border-t border-gray-200 bg-gray-50 mt-auto">
           <button
             disabled={cart.length === 0}
             onClick={() => {
               const whatsappLink = generateWhatsAppMessage();
               if (whatsappLink) window.open(whatsappLink, "_blank");
             }}
-            className={`w-full py-3 rounded-md font-semibold transition text-white ${
-              cart.length > 0 ? "bg-green-600 hover:bg-green-700" : "bg-gray-600 cursor-not-allowed"
+            className={`w-full py-3 rounded-md font-semibold transition ${
+              cart.length > 0
+                ? "bg-green-500 hover:bg-green-600 text-white"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
             Comprar por WhatsApp

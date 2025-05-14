@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Product } from "../types/product";
 import ProductModal from "./ProductModal";
-import { useCart } from "../context/CartContext"; // ✅ Importar el contexto del carrito
+import { useCart } from "../context/CartContext";
+import { ShoppingCart, Eye, Package } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
-  onModalOpen?: () => void; // Callback cuando se abre el modal
-  onModalClose?: () => void; // Callback cuando se cierra el modal
+  onModalOpen?: () => void;
+  onModalClose?: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModalClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(product.image_url || "URL_DE_IMAGEN_DEFECTO");
-  const { name, price, description } = product;
-  const { addToCart } = useCart(); // ✅ Obtener la función para agregar productos al carrito
+  const { name, price, description, stock, size } = product;
+  const { addToCart } = useCart();
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     if (imageSrc && imageSrc.trim() !== "") {
@@ -37,38 +39,125 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onModalOpen, onModal
     onModalClose?.();
   };
 
+  const formatPrice = (price: number) => {
+    return price
+      ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(price)
+      : "Precio no disponible";
+  };
+
+  const getStockColor = () => {
+    if (stock > 10) return "text-green-600";
+    if (stock > 0) return "text-amber-500";
+    return "text-red-500";
+  };
+
   return (
     <>
-      <div className="group overflow-hidden bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 scale-95 hover:scale-100">
-        <div className="relative h-64 flex justify-center items-center bg-gray-100">
+      <div 
+        className="relative overflow-hidden bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        {/* Badge para stock bajo */}
+        {stock > 0 && stock <= 5 && (
+          <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            ¡Últimas unidades!
+          </div>
+        )}
+        
+        {/* Imagen con overlay */}
+        <div className="relative h-64 overflow-hidden bg-gray-50">
           <img
             src={imageSrc}
             alt={name}
-            className="max-w-full h-64 object-contain transition-transform duration-500 ease-in-out group-hover:scale-105"
+            className="h-full w-full object-contain transition-transform duration-700 ease-out"
+            style={{ 
+              transform: isHovering ? 'scale(1.08)' : 'scale(1)',
+            }}
             onError={() => setImageSrc("URL_DE_IMAGEN_DEFECTO")}
             crossOrigin="anonymous"
           />
+          
+          {/* Overlay con acciones rápidas */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 transition-opacity duration-300"
+            style={{ opacity: isHovering ? 0.6 : 0 }}
+          >
+            <button 
+              onClick={handleOpenModal}
+              className="mx-2 p-3 bg-white rounded-full text-gray-800 hover:bg-purple-100 transition-colors duration-200"
+              aria-label="Ver detalles"
+            >
+              <Eye size={20} />
+            </button>
+            
+            <button 
+              onClick={() => stock > 0 && addToCart(product)}
+              className={`mx-2 p-3 rounded-full transition-colors duration-200 ${
+                stock > 0 
+                ? "bg-white text-gray-800 hover:bg-green-100" 
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+              disabled={stock === 0}
+              aria-label="Agregar al carrito"
+            >
+              <ShoppingCart size={20} />
+            </button>
+          </div>
         </div>
-        <div className="p-6">
-          <h3 className="text-xl font-serif text-gray-800 mb-2">{name}</h3>
-          <p className="text-purple-800 font-medium mb-3">
-            {price
-              ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(price)
-              : "Precio no disponible"}
+        
+        {/* Contenido */}
+        <div className="p-5">
+          {/* Nombre y precio */}
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-lg font-medium text-gray-800 line-clamp-1">{name}</h3>
+            <span className="text-lg font-semibold text-purple-700">{formatPrice(price)}</span>
+          </div>
+          
+          {/* Descripción */}
+          <p className="text-sm text-gray-600 mb-3 line-clamp-2 min-h-[2.5rem]">
+            {description || "Sin descripción disponible"}
           </p>
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">{description || "Sin descripción"}</p>
-          <button
-            onClick={handleOpenModal}
-            className="w-full py-2 border border-purple-800 text-purple-800 rounded-md hover:bg-purple-800 hover:text-white transition-colors duration-300 active:scale-95"
-          >
-            Ver detalles
-          </button>
-          <button
-            onClick={() => addToCart(product)}
-            className="mt-2 w-full py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-600 hover:text-white transition-colors duration-300 active:scale-95"
-          >
-            Agregar al carrito
-          </button>
+          
+          {/* Detalles adicionales */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex items-center">
+              <Package size={16} className={getStockColor()} />
+              <span className={`ml-1 text-xs ${getStockColor()}`}>
+                {stock > 0 ? `${stock} disponibles` : "Sin stock"}
+              </span>
+            </div>
+            
+            {size && (
+              <div className="flex items-center bg-gray-100 px-2 py-0.5 rounded-full">
+                <span className="text-xs text-gray-700">Talle: {size}</span>
+              </div>
+            )}
+          </div>
+          
+          {/* Botones */}
+          <div className="space-y-2">
+            <button
+              onClick={handleOpenModal}
+              className="w-full py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center justify-center"
+            >
+              <Eye size={16} className="mr-2" />
+              Ver detalles
+            </button>
+            
+            <button
+              onClick={() => addToCart(product)}
+              className={`w-full py-2 rounded-lg transition-colors duration-300 font-medium text-sm flex items-center justify-center ${
+                stock > 0
+                  ? "bg-purple-600 text-white hover:bg-purple-700"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+              disabled={stock === 0}
+            >
+              <ShoppingCart size={16} className="mr-2" />
+              {stock > 0 ? "Agregar al carrito" : "Sin stock"}
+            </button>
+          </div>
         </div>
       </div>
       <ProductModal product={product} isOpen={isModalOpen} onClose={handleCloseModal} />

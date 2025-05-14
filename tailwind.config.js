@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
         'serif': ['Playfair Display', 'ui-serif', 'Georgia'],
+        "poppins": ['Poppins', 'sans-serif'],
       },
       colors: {
         background: '#ffffff',       // Fondo blanco
