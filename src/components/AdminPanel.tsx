@@ -102,7 +102,7 @@ const AdminPanel = () => {
     await addProduct({
       id: crypto.randomUUID(),
       name: newProduct.name,
-      category: newProduct.category as 'anillos' | 'collares' | 'aritos',
+      category: newProduct.category as 'anillos' | 'collares' | 'aros',
       price: Number(newProduct.price),
       stock: Number(newProduct.stock),
       size: newProduct.category === 'anillos' ? newProduct.size : undefined,
@@ -164,7 +164,7 @@ const AdminPanel = () => {
             >
               <option value="anillos">Anillos</option>
               <option value="collares">Collares</option>
-              <option value="aritos">Aritos</option>
+              <option value="aros">Aros</option>
             </select>
           </div>
           

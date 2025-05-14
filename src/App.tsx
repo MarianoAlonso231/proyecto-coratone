@@ -4,7 +4,7 @@ import { supabase } from './lib/supabaseClient';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ProductSection from './components/ProductSection';
-import Footer from './components/Footer';
+
 
 import { fetchProducts } from './lib/api';
 import { Product } from './types/product';
@@ -14,10 +14,10 @@ import Layout from './components/Layout';
 import { CartProvider } from "./context/CartContext"; // ✅ Ahora el carrito es accesible en toda la aplicación
 
 function App() {
-  const [products, setProducts] = useState<{ anillos: Product[]; collares: Product[]; aritos: Product[] }>({
+  const [products, setProducts] = useState<{ anillos: Product[]; collares: Product[]; aros: Product[] }>({
     anillos: [],
     collares: [],
-    aritos: [],
+    aros: [],
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -29,7 +29,7 @@ function App() {
       setProducts({
         anillos: allProducts.filter((p) => p.category === 'anillos'),
         collares: allProducts.filter((p) => p.category === 'collares'),
-        aritos: allProducts.filter((p) => p.category === 'aritos'),
+        aros: allProducts.filter((p) => p.category === 'aros'),
       });
 
       setLoading(false);
@@ -66,8 +66,8 @@ function App() {
                   ) : (
                     <p className="text-center text-gray-500">No hay collares disponibles.</p>
                   )}
-                  {products.aritos.length > 0 ? (
-                    <ProductSection id="aritos" title="Aritos" products={products.aritos} />
+                  {products.aros.length > 0 ? (
+                    <ProductSection id="aros" title="Aros" products={products.aros} />
                   ) : (
                     <p className="text-center text-gray-500">No hay aritos disponibles.</p>
                   )}

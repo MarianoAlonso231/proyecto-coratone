@@ -36,7 +36,7 @@ const Header: React.FC = () => {
 
         <nav className="hidden md:flex items-center">
           <div className="flex space-x-6">
-            {["anillos", "collares", "aritos"].map((item) => (
+            {["anillos", "collares", "aros"].map((item) => (
               <button
                 key={item}
                 onClick={() => document.getElementById(item)?.scrollIntoView({ behavior: "smooth" })}

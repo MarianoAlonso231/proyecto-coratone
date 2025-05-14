@@ -4,5 +4,5 @@ export interface Product {
   price: number;
   imageUrl: string;
   description: string;
-  category: 'anillos' | 'collares' | 'aritos';
+  category: 'anillos' | 'collares' | 'aros';
 }

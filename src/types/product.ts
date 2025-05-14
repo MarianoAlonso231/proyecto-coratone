@@ -1,7 +1,7 @@
 export interface Product {
   id: string; // UUID generado por Supabase
   name: string;
-  category: 'anillos' | 'aritos' | 'collares';
+  category: 'anillos' | 'aros' | 'collares';
   size?: string| null;
   stock: number;
   price: number;
