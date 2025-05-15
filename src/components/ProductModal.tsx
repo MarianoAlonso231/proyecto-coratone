@@ -27,9 +27,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
       {/* Modal */}
       <div className="relative bg-white text-gray-800 rounded-xl shadow-xl w-full max-w-2xl mx-4 overflow-hidden transition-all duration-500 ease-in-out flex flex-col">
         {/* Botón cerrar */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-black transition">
-          <X size={24} />
-        </button>
+        <button
+  onClick={(e) => {
+    e.stopPropagation();
+    onClose();
+  }}
+  className="absolute top-4 right-4 text-gray-500 hover:text-black transition z-50 pointer-events-auto"
+>
+  <X size={24} />
+</button>
 
         {/* Contenido */}
         <div className="grid grid-cols-1 md:grid-cols-2">
@@ -61,16 +67,23 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
 
         {/* Botón agregar al carrito */}
         <div className="p-6 md:p-8 border-t border-gray-200 bg-gray-50">
-          <button
-            onClick={() => {
-              addToCart(product);
-              onClose(); // opcional
-            }}
-            className="w-full py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition active:scale-95"
-          >
-            Agregar al carrito
-          </button>
-        </div>
+  <button
+    onClick={() => {
+      if (product.stock > 0) {
+        addToCart(product);
+        onClose(); // opcional
+      }
+    }}
+    disabled={product.stock === 0}
+    className={`w-full py-3 font-semibold rounded-lg transition active:scale-95 ${
+      product.stock === 0
+        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+        : "bg-green-500 text-white hover:bg-green-600"
+    }`}
+  >
+    {product.stock === 0 ? "Agotado" : "Agregar al carrito"}
+  </button>
+</div>
       </div>
     </div>
   );
