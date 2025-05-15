@@ -10,11 +10,20 @@ export default {
       },
       colors: {
         background: '#ffffff',       // Fondo blanco
-        primary: '#7D3C98',          // Púrpura (como el de la imagen)
+        primary: '#7D3C98',          // Púrpura (como el de imagen)
         textBase: '#333333',         // Texto principal
         footer: '#f3f3f3',           // Fondo para pie de página
+      },
+      animation: {
+        fadeIn: "fadeIn 0.3s ease-in-out", // ✅ Animación agregada
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
     },
   },
   plugins: [],
-}
+};

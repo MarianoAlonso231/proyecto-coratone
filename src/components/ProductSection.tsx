@@ -1,10 +1,6 @@
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCarousel from "./ProductCarousel";
 import { Product } from "../types/product";
-import { Swiper, SwiperSlide } from "swiper/react"; // ✅ Importación de Swiper
-import { Navigation } from "swiper/modules"; // ✅ Módulo de navegación
-import "swiper/css"; // ✅ Estilos base de Swiper
-import "swiper/css/navigation"; // ✅ Estilos para la navegación con flechas
 
 interface ProductSectionProps {
   title: string;
@@ -22,22 +18,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) 
         </div>
 
         {products.length > 0 ? (
-          <Swiper
-            modules={[Navigation]} // ✅ Activamos la navegación manual
-            spaceBetween={20} // ✅ Espacio entre productos
-            slidesPerView={1} // ✅ Mostrar un producto por vista (puedes ajustar)
-            navigation // ✅ Agrega flechas de navegación
-            breakpoints={{
-              640: { slidesPerView: 2 }, // ✅ En pantallas pequeñas, mostrar 2 productos
-              1024: { slidesPerView: 3 }, // ✅ En pantallas grandes, mostrar 3 productos
-            }}
-          >
-            {products.map((product) => (
-              <SwiperSlide key={product.id}>
-                <ProductCard product={product} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <ProductCarousel products={products} /> // ✅ Reutilizamos el nuevo componente
         ) : (
           <p className="text-center text-gray-500">No hay productos disponibles.</p>
         )}
