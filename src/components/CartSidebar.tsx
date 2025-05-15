@@ -12,13 +12,31 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
   const whatsappNumber = "5493816080780";
 
   const generateWhatsAppMessage = () => {
-    if (cart.length === 0) return;
-    let message = "Hola, quiero comprar estos productos:\n\n";
-    cart.forEach((item) => {
-      message += `${item.name} - $${item.price}\n`;
-    });
-    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-  };
+  if (cart.length === 0) return;
+
+  let message = "Hola, quiero comprar estos productos:\n\n";
+  cart.forEach((item) => {
+    message += `${item.name} - ${new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(item.price)}\n`;
+  });
+
+  // Calcular el total a pagar
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+  const formattedTotalPrice = new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+  }).format(totalPrice);
+
+  message += `\nTotal a pagar: ${formattedTotalPrice}`;
+
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+};
+
+  // Calcular precio total
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+  const formattedTotalPrice = new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+  }).format(totalPrice);
 
   return (
     <>
@@ -78,8 +96,12 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Comprar */}
-        <div className="p-5 border-t border-gray-200 bg-gray-50 mt-auto">
+        {/* Total a pagar */}
+        <div className="p-5 border-t border-gray-200 bg-gray-50">
+          <div className="mb-4 text-lg font-semibold text-gray-800">
+            Total a pagar: {formattedTotalPrice}
+          </div>
+
           <button
             disabled={cart.length === 0}
             onClick={() => {
@@ -87,9 +109,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               if (whatsappLink) window.open(whatsappLink, "_blank");
             }}
             className={`w-full py-3 rounded-md font-semibold transition ${
-              cart.length > 0
-                ? "bg-green-500 hover:bg-green-600 text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              cart.length > 0 ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >
             Comprar por WhatsApp
