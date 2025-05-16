@@ -33,7 +33,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} />
 
       {isFullScreen && (
-        <div className="fixed inset-0 bg-black flex justify-center items-center z-[60]" onClick={() => setIsFullScreen(false)}>
+        <div className="fixed inset-0 bg-white flex justify-center items-center z-[60]" onClick={() => setIsFullScreen(false)}>
           <img src={product.image_url} alt={product.name} className="max-w-full max-h-full cursor-pointer" />
         </div>
       )}
