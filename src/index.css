@@ -62,3 +62,20 @@
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
 }
+
+/* Mueve las flechas hacia arriba */
+.swiper-button-next,
+.swiper-button-prev {
+  top: 200px !important; /* o el valor que quieras para subirlas */
+  /* Si querés que estén aún más arriba podés usar valores negativos */
+  /* top: -10px !important; */
+}
+
+/* Ajustar el tamaño o color si querés */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 24px; /* tamaño de la flecha */
+  color: #333; /* color de la flecha */
+}
+
+
