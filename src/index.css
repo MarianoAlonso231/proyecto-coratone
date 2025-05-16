@@ -63,12 +63,18 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Mueve las flechas hacia arriba */
+/* Flechas en desktop */
 .swiper-button-next,
 .swiper-button-prev {
-  top: 200px !important; /* o el valor que quieras para subirlas */
-  /* Si querés que estén aún más arriba podés usar valores negativos */
-  /* top: -10px !important; */
+  top: 200px !important; /* Ajuste en pantallas grandes */
+}
+
+/* Flechas en móviles (menos de 768px) */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    top: 170px !important; /* ✅ Mueve más abajo en móviles */
+  }
 }
 
 /* Ajustar el tamaño o color si querés */

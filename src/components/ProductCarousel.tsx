@@ -17,6 +17,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
       spaceBetween={20}
       slidesPerView={1}
       navigation
+      style={{ height: "600px" }}
       breakpoints={{
         640: { slidesPerView: 2 },
         1024: { slidesPerView: 3 },

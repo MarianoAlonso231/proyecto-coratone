@@ -54,7 +54,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
             <img
               src={product.image_url}
               alt={product.name}
-              className="max-w-[65px] w-full h-auto object-cover mx-auto rounded-lg shadow-md cursor-pointer"
+              className="max-w-[150px] w-full h-auto object-cover mx-auto rounded-lg shadow-md cursor-pointer"
               onClick={() => setIsFullScreen(true)}
             />
             <button
