@@ -5,7 +5,7 @@ const HeroSection: React.FC = () => {
     <section className="relative min-h-screen flex flex-col justify-center items-center">
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="w-full h-full bg-[url('/public/WhatsApp-image2.jpeg')] bg-cover bg-center">
+        <div className="w-full h-full bg-[url('/WhatsApp-image2.jpeg')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
         </div>
       </div>
