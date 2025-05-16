@@ -20,14 +20,14 @@ const Cart = () => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="p-4 font-[Poppins] max-w-xl mx-auto">
+    <div className="p-4 font-[Poppins] max-w-xl mx-auto text-purple-900">
       <h2 className="text-2xl font-semibold mb-4">Carrito de Compras</h2>
 
       {cart.length === 0 ? (
-        <p className="text-gray-600">Tu carrito está vacío.</p>
+        <p className="text-purple-900">Tu carrito está vacío.</p>
       ) : (
         <>
-          <ul className="divide-y divide-gray-200 mb-4">
+          <ul className="divide-y divide-purple-900 mb-4">
             {cart.map((item, index) => (
               <li key={index} className="py-2 flex justify-between items-center">
                 <span>
@@ -44,7 +44,7 @@ const Cart = () => {
 
           <button
             onClick={() => window.open(generateWhatsAppMessage(cart), "_blank")}
-            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
+            className="bg-purple-900 text-white py-2 px-4 rounded hover:bg-purple-950 transition"
           >
             Comprar por WhatsApp
           </button>

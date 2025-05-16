@@ -5,8 +5,7 @@ const HeroSection: React.FC = () => {
     <section className="relative min-h-screen flex flex-col justify-center items-center">
       {/* Background Image with Gradient Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="w-full h-full bg-[url('https://images.pexels.com/photos/1458867/pexels-photo-1458867.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] 
-          bg-cover bg-center">
+        <div className="w-full h-full bg-[url('/public/WhatsApp-image2.jpeg')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
         </div>
       </div>
@@ -21,7 +20,7 @@ const HeroSection: React.FC = () => {
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-serif font-light text-white mb-4 tracking-wide">
-            Coratone <span className="text-purple-300 font-medium">Accesorios</span>
+            Coratone <span className="text-purple-600 font-medium">Accesorios</span>
           </h1>
 
           {/* Elegant Subtitle */}
@@ -31,16 +30,15 @@ const HeroSection: React.FC = () => {
 
           {/* Description */}
           <p className="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Descubre nuestra exclusiva colección de joyería artesanal diseñada para 
-            complementar tu estilo personal con elegancia y sofisticación.
+            Realizamos Envíos
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
             <a
               href="#anillos"
-              className="px-8 py-3 bg-purple-800 text-white font-medium rounded-md 
-              hover:bg-purple-900 transition-colors duration-300 backdrop-blur-sm shadow-lg"
+              className="px-8 py-3 bg-purple-900 text-white font-medium rounded-md 
+              hover:bg-purple-950 transition-colors duration-300 backdrop-blur-sm shadow-lg"
             >
               Explorar Colección
             </a>

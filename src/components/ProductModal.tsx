@@ -54,7 +54,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
             <img
               src={product.image_url}
               alt={product.name}
-              className="max-w-[80px] w-full h-auto object-cover mx-auto rounded-lg shadow-md cursor-pointer"
+              className="max-w-[65px] w-full h-auto object-cover mx-auto rounded-lg shadow-md cursor-pointer"
               onClick={() => setIsFullScreen(true)}
             />
             <button
@@ -69,15 +69,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
           <div className="p-6 md:p-8 flex flex-col justify-between">
             <div>
               <h3 className="text-2xl font-semibold mb-2">{product.name}</h3>
-              <p className="text-green-600 text-xl font-bold mb-2">{formatPrice(product.price)}</p>
-              <p className={`text-sm font-medium mb-4 ${isLowStock ? "text-red-500" : "text-green-700"}`}>
+              <p className="text-purple-900 text-xl font-bold mb-2">{formatPrice(product.price)}</p>
+              <p className={`text-sm font-medium mb-4 ${isLowStock ? "text-red-500" : "text-purple-900"}`}>
                 {isLowStock ? `⚠️ Stock bajo: ${product.stock} unidad/es` : `Disponibles: ${product.stock}`}
               </p>
               <p className="text-gray-600 text-sm mb-6 leading-relaxed">{product.description}</p>
 
               {product.size && <p className="text-sm text-gray-600 font-medium">Talle: {product.size}</p>}
 
-              {/* Selector de cantidad */}
               {product.stock > 0 && (
                 <div className="mt-4">
                   <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">
@@ -90,7 +89,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
                     max={product.stock}
                     value={quantity}
                     onChange={(e) => setQuantity(Math.min(product.stock, Math.max(1, Number(e.target.value))))}
-                    className="w-20 px-2 py-1 border rounded-md"
+                    className="w-20 px-2 py-1 border border-purple-900 rounded-md text-purple-900"
                   />
                 </div>
               )}
@@ -98,14 +97,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
           </div>
         </div>
 
-        <div className="p-6 md:p-8 border-t border-gray-200 bg-gray-50">
+        <div className="p-6 md:p-8 border-t border-purple-900 bg-purple-950">
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
             className={`w-full py-3 font-semibold rounded-lg transition active:scale-95 ${
-              product.stock === 0
-                ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                : "bg-green-500 text-white hover:bg-green-600"
+              product.stock === 0 ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-purple-900 text-white hover:bg-purple-950"
             }`}
           >
             {product.stock === 0 ? "Agotado" : "Agregar al carrito"}

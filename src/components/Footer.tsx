@@ -5,7 +5,6 @@ import { FaInstagram } from "react-icons/fa";
 const Footer: React.FC = () => {
   const location = useLocation(); // ✅ Obtener la ruta actual
 
-  // ✅ No mostrar el footer en la página de login
   if (location.pathname === "/login") return null;
 
   return (
@@ -19,12 +18,12 @@ const Footer: React.FC = () => {
               <a
                 href="https://www.instagram.com/coratoneaccesorios/"
                 target="_blank"
-                className="text-gray-400 hover:text-purple-800 transition-colors duration-200"
+                className="text-gray-400 hover:text-purple-900 transition-colors duration-200"
               >
                 <div className="flex items-center space-x-2">
-  <FaInstagram size={40} className="text-purple-800" />
-  <span className="text-gray-600 text-lg font-medium">Instagram</span>
-</div>
+                  <FaInstagram size={40} className="text-purple-900" />
+                  <span className="text-gray-600 text-lg font-medium">Instagram</span>
+                </div>
               </a>
             </div>
           </div>
