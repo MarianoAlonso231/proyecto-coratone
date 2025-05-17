@@ -31,9 +31,9 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
 
   return (
     <div className="relative px-4">
-      {/* Botón anterior personalizado */}
+      {/* Botón anterior personalizado - ajustado a 2/3 de la altura */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 left-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
+        className="absolute top-2/3 -translate-y-1/2 left-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={prevRef}
       >
         <svg className="w-6 h-6 text-purple-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,9 +62,9 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         ))}
       </Swiper>
 
-      {/* Botón siguiente personalizado */}
+      {/* Botón siguiente personalizado - ajustado a 2/3 de la altura */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 right-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
+        className="absolute top-2/3 -translate-y-1/2 right-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={nextRef}
       >
         <svg className="w-6 h-6 text-purple-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
