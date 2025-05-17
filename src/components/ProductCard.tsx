@@ -120,7 +120,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         />
       )}
 
-      <div className="group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+      <div className="group relative bg-white rounded-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+
         {stock > 0 && stock <= 3 && (
           <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
             ¡Últimas unidades!
