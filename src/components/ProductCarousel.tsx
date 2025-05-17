@@ -26,17 +26,15 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
       </div>
       
       <Swiper
-        modules={[Navigation, Autoplay]}
+        modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={1}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
-        }}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: true,
-        }}
+        }
+        
+        }
         breakpoints={{
           640: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
