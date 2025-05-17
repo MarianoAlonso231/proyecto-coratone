@@ -16,18 +16,23 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
   const swiperRef = useRef<any>(null);
 
   useEffect(() => {
-  if (swiperRef.current && swiperRef.current.navigation && prevRef.current && nextRef.current) {
-    swiperRef.current.params.navigation.prevEl = prevRef.current;
-    swiperRef.current.params.navigation.nextEl = nextRef.current;
-    swiperRef.current.navigation.init();
-    swiperRef.current.navigation.update();
-  }
-}, []);
+    if (
+      swiperRef.current &&
+      swiperRef.current.swiper &&
+      prevRef.current &&
+      nextRef.current
+    ) {
+      swiperRef.current.swiper.params.navigation.prevEl = prevRef.current;
+      swiperRef.current.swiper.params.navigation.nextEl = nextRef.current;
+      swiperRef.current.swiper.navigation.init();
+      swiperRef.current.swiper.navigation.update();
+    }
+  }, []);
 
   return (
     <div className="relative px-4">
       {/* Botón anterior personalizado */}
-      <div 
+      <div
         className="absolute top-1/2 -translate-y-1/2 left-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={prevRef}
       >
@@ -41,10 +46,6 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={1}
-        navigation={{
-          prevEl: prevRef.current,
-          nextEl: nextRef.current,
-        }}
         breakpoints={{
           640: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
@@ -62,7 +63,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
       </Swiper>
 
       {/* Botón siguiente personalizado */}
-      <div 
+      <div
         className="absolute top-1/2 -translate-y-1/2 right-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={nextRef}
       >

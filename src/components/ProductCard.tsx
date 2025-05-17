@@ -7,16 +7,15 @@ interface ProductCardProps {
   product: Product;
 }
 
-// Componente para el modal de imagen
 const ImageModal = memo(({ imageUrl, name, onClose }: { imageUrl: string, name: string, onClose: () => void }) => (
-  <div 
+  <div
     className="fixed inset-0 bg-black bg-opacity-90 z-[1000] flex items-center justify-center p-4"
     onClick={onClose}
     role="dialog"
     aria-modal="true"
     aria-labelledby="image-modal-title"
   >
-    <div 
+    <div
       className="relative w-full max-w-4xl max-h-[90vh]"
       onClick={(e) => e.stopPropagation()}
     >
@@ -45,7 +44,6 @@ const ImageModal = memo(({ imageUrl, name, onClose }: { imageUrl: string, name: 
 
 ImageModal.displayName = "ImageModal";
 
-// Función para formatear precio fuera del componente principal
 const formatPrice = (price: number) => {
   return price
     ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(price)
@@ -56,11 +54,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const { name, price, description, stock, size, image_url } = product;
   const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number | null>(1);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // Usando useCallback para optimizar las funciones
   const handleImageClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation(); // Previene la interacción con Swiper
+    e.stopPropagation();
     setIsImageModalOpen(true);
   }, []);
 
@@ -70,18 +68,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    if (quantity <= stock) {
-      addToCart(product, quantity);
-      setQuantity(1);
+    if (!quantity || quantity <= 0 || quantity > stock) {
+      setErrorMsg(`Selecciona una cantidad válida entre 1 y ${stock}`);
+      return;
     }
+    addToCart(product, quantity);
+    setQuantity(1);
+    setErrorMsg("");
   }, [addToCart, product, quantity, stock]);
 
   const handleQuantityChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(1, parseInt(e.target.value) || 1);
-    setQuantity(Math.min(value, stock));
+    const rawValue = e.target.value;
+
+    if (rawValue === "") {
+      setQuantity(null);
+      return;
+    }
+
+    const parsed = parseInt(rawValue, 10);
+    if (!isNaN(parsed)) {
+      setQuantity(Math.min(parsed, stock));
+    }
   }, [stock]);
-  
-  // Determinar el estado de inventario para colores y textos
+
   const stockStatus = stock > 10 ? "alto" : stock > 3 ? "medio" : stock > 0 ? "bajo" : "agotado";
   const stockTextClass = {
     alto: "text-green-600",
@@ -92,25 +101,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <>
-      {/* Modal de imagen (separado como componente) */}
       {isImageModalOpen && (
-        <ImageModal 
-          imageUrl={image_url} 
-          name={name} 
-          onClose={handleCloseModal} 
+        <ImageModal
+          imageUrl={image_url}
+          name={name}
+          onClose={handleCloseModal}
         />
       )}
 
-      {/* Tarjeta de producto */}
       <div className="group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
-        {/* Badge de stock */}
         {stock > 0 && stock <= 3 && (
           <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
             ¡Últimas unidades!
           </div>
         )}
 
-        {/* Imagen con ícono de zoom */}
         <div
           className="relative h-64 bg-gray-50 cursor-zoom-in overflow-hidden flex-shrink-0"
           onClick={handleImageClick}
@@ -129,7 +134,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Contenido */}
         <div className="p-4 flex-grow flex flex-col">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-800 line-clamp-2">{name}</h3>
@@ -144,18 +148,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {size && <p className="text-sm text-gray-600 mb-2">Talle: {size}</p>}
 
           {stock > 0 && (
-            <div className="flex items-center mb-3 gap-2 mt-auto">
-              <label htmlFor={`quantity-${product.id}`} className="text-sm">Cantidad:</label>
-              <input
-                id={`quantity-${product.id}`}
-                type="number"
-                value={quantity}
-                min={1}
-                max={stock}
-                onChange={handleQuantityChange}
-                className="w-16 text-center border rounded p-1"
-                aria-label={`Cantidad de ${name} a agregar, máximo ${stock}`}
-              />
+            <div className="flex flex-col gap-1 mb-3 mt-auto">
+              <div className="flex items-center gap-2">
+                <label htmlFor={`quantity-${product.id}`} className="text-sm">Cantidad:</label>
+                <input
+                  id={`quantity-${product.id}`}
+                  type="number"
+                  value={quantity ?? ""}
+                  min={1}
+                  max={stock}
+                  onChange={handleQuantityChange}
+                  className="w-16 text-center border rounded p-1"
+                  aria-label={`Cantidad de ${name} a agregar, máximo ${stock}`}
+                />
+              </div>
+              {errorMsg && <span className="text-red-500 text-xs">{errorMsg}</span>}
             </div>
           )}
 
