@@ -7,40 +7,51 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ImageModal = memo(({ imageUrl, name, onClose }: { imageUrl: string, name: string, onClose: () => void }) => (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-90 z-[1000] flex items-center justify-center p-4"
-    onClick={onClose}
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="image-modal-title"
-  >
+const ImageModal = memo(
+  ({
+    imageUrl,
+    name,
+    onClose,
+  }: {
+    imageUrl: string;
+    name: string;
+    onClose: () => void;
+  }) => (
     <div
-      className="relative w-full max-w-4xl max-h-[90vh]"
-      onClick={(e) => e.stopPropagation()}
+      className="fixed inset-0 bg-gray-50 z-[1000] flex items-center justify-center p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="image-modal-title"
     >
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 rounded-full p-1.5 shadow-lg transition-all"
-        aria-label="Cerrar modal"
+      <div
+        className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-xl ring-1 ring-gray-200 shadow-xl transition-transform animate-fadeIn"
+        onClick={(e) => e.stopPropagation()}
       >
-        <X size={20} className="text-white" />
-      </button>
-      <div className="w-full h-full flex items-center justify-center">
-        <img
-          src={imageUrl || "/placeholder.jpg"}
-          alt={`Ampliación de ${name}`}
-          className="object-contain max-w-full max-h-full"
-          id="image-modal-title"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/placeholder.jpg";
-          }}
-          loading="lazy"
-        />
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 rounded-full p-1.5 shadow transition-all"
+          aria-label="Cerrar modal"
+        >
+          <X size={20} className="text-gray-700" />
+        </button>
+        <div className="w-full h-full flex items-center justify-center p-4">
+          <img
+            src={imageUrl || "/placeholder.jpg"}
+            alt={`Ampliación de ${name}`}
+            className="object-contain max-w-full max-h-[80vh]"
+            id="image-modal-title"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/placeholder.jpg";
+            }}
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
-  </div>
-));
+  )
+);
+
 
 ImageModal.displayName = "ImageModal";
 
