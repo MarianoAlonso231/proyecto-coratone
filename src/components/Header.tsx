@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, Phone } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import CartSidebar from "./CartSidebar";
 
@@ -9,6 +9,16 @@ const Header: React.FC = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const { cart } = useCart();
   const location = useLocation();
+  
+  // Número de WhatsApp al que se enviará el mensaje
+  const whatsappNumber = "5491134567890"; // Reemplaza con tu número real
+  const whatsappMessage = "Hola, estoy interesado en tus productos. ¿Podrías darme más información?";
+  
+  // Función para abrir WhatsApp
+  const openWhatsApp = () => {
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
+  };
 
   if (location.pathname === "/login") return null;
 
@@ -16,7 +26,7 @@ const Header: React.FC = () => {
     <header className="fixed w-full z-50 bg-white shadow-md py-2 border-b border-gray-200">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="#" className="flex items-center transition-transform duration-300 hover:scale-105">
-          <img src="/coratone-logo.png" alt="Coratone" className="h-12 w-auto" />
+          <img src="/coratone-logo.png" alt="Coratone" className="h-12 w-20" />
         </a>
 
         {/* Menú en desktop */}
@@ -34,9 +44,20 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center space-x-4">
+          {/* Icono de WhatsApp */}
+          <button 
+            onClick={openWhatsApp}
+            className="relative transition-transform duration-300 hover:scale-110"
+            aria-label="Contactar por WhatsApp"
+          >
+            <div className="bg-purple-900 text-white p-1 rounded-full flex items-center justify-center">
+              <Phone size={18} />
+            </div>
+          </button>
+          
           {/* Ícono del carrito */}
           <button className="relative transition-transform duration-300 hover:scale-110" onClick={() => setCartOpen(true)}>
-            <ShoppingCart size={22} className="text-gray-800 transition-colors duration-300" />
+            <ShoppingCart size={22} className="text-purple-900 transition-colors duration-300" />
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-purple-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium animate-pulse">
                 {cart.length}
@@ -46,7 +67,7 @@ const Header: React.FC = () => {
 
           {/* Botón menú hamburguesa */}
           <button className="md:hidden transition-transform duration-300 hover:scale-110" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menú principal">
-            {isMenuOpen ? <X size={24} className="text-gray-800" /> : <Menu size={24} className="text-gray-800" />}
+            {isMenuOpen ? <X size={24} className="text-purple-900" /> : <Menu size={24} className="text-purple-900" />}
           </button>
         </div>
       </div>
@@ -61,11 +82,14 @@ const Header: React.FC = () => {
                 document.getElementById(item)?.scrollIntoView({ behavior: "smooth" });
                 setIsMenuOpen(false);
               }}
-              className="w-full text-center text-gray-800 uppercase font-light tracking-wider py-4 border-b border-gray-200 last:border-b-0"
+              className="w-full text-center text-purple-900 uppercase font-light tracking-wider py-4 border-b border-gray-200 last:border-b-0"
             >
               {item.charAt(0).toUpperCase() + item.slice(1)}
             </button>
           ))}
+          
+          {/* Opción de WhatsApp en el menú móvil */}
+          
         </nav>
       </div>
 
