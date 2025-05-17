@@ -5,10 +5,15 @@ import { Product } from "../types/product";
 interface ProductSectionProps {
   title: string;
   id: string;
-  products: Product[];
+  products: Product[] | null; // <-- Aceptar null para manejar carga
 }
 
 const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) => {
+  // Filtra productos sin imagen y muestra solo los de stock positivo
+  const validProducts = products?.filter(p => 
+    p.image_url && p.stock > 0
+  ) || [];
+
   return (
     <section id={id} className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -17,10 +22,12 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, id, products }) 
           <div className="w-16 h-1 bg-purple-800"></div>
         </div>
 
-        {products.length > 0 ? (
-          <ProductCarousel products={products} /> // ✅ Reutilizamos el nuevo componente
+        {validProducts.length > 0 ? (
+          <ProductCarousel products={validProducts} />
         ) : (
-          <p className="text-center text-gray-500">No hay productos disponibles.</p>
+          <p className="text-center text-gray-500">
+            {products === null ? "Cargando productos..." : "No hay productos disponibles."}
+          </p>
         )}
       </div>
     </section>
