@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -13,13 +13,22 @@ interface ProductCarouselProps {
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
-  const [swiperInitialized, setSwiperInitialized] = useState(false);
+  const swiperRef = useRef<any>(null);
+
+  useEffect(() => {
+  if (swiperRef.current && swiperRef.current.navigation && prevRef.current && nextRef.current) {
+    swiperRef.current.params.navigation.prevEl = prevRef.current;
+    swiperRef.current.params.navigation.nextEl = nextRef.current;
+    swiperRef.current.navigation.init();
+    swiperRef.current.navigation.update();
+  }
+}, []);
 
   return (
     <div className="relative px-4">
-      {/* Botón anterior personalizado fuera del área de navegación de Swiper */}
+      {/* Botón anterior personalizado */}
       <div 
-        className="absolute top-1/2 -translate-y-1/2 left-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md" 
+        className="absolute top-1/2 -translate-y-1/2 left-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={prevRef}
       >
         <svg className="w-6 h-6 text-purple-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,6 +37,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
       </div>
 
       <Swiper
+        ref={swiperRef}
         modules={[Navigation]}
         spaceBetween={20}
         slidesPerView={1}
@@ -41,24 +51,6 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
           1280: { slidesPerView: 4 },
         }}
         className="py-8"
-        onBeforeInit={(swiper) => {
-          // Asignamos los refs a los elementos de navegación
-          if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
-            swiper.params.navigation.prevEl = prevRef.current;
-            swiper.params.navigation.nextEl = nextRef.current;
-          }
-        }}
-        onInit={() => {
-          setSwiperInitialized(true);
-        }}
-        onSwiper={(swiper) => {
-          // Actualiza la navegación después de que el componente se monte
-          setTimeout(() => {
-            if (swiper.navigation) {
-              swiper.navigation.update();
-            }
-          });
-        }}
       >
         {products.map((product) => (
           <SwiperSlide key={product.id} className="h-auto">
@@ -69,9 +61,9 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         ))}
       </Swiper>
 
-      {/* Botón siguiente personalizado fuera del área de navegación de Swiper */}
+      {/* Botón siguiente personalizado */}
       <div 
-        className="absolute top-1/2 -translate-y-1/2 right-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md" 
+        className="absolute top-1/2 -translate-y-1/2 right-1 z-10 cursor-pointer bg-white rounded-full p-2 shadow-md"
         ref={nextRef}
       >
         <svg className="w-6 h-6 text-purple-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
