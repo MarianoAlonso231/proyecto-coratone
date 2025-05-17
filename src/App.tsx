@@ -4,20 +4,24 @@ import { supabase } from './lib/supabaseClient';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ProductSection from './components/ProductSection';
-
-
 import { fetchProducts } from './lib/api';
 import { Product } from './types/product';
 import Login from './pages/Login';
 import AdminRoute from './routes/AdminRoute';
 import Layout from './components/Layout';
-import { CartProvider } from "./context/CartContext"; // ✅ Ahora el carrito es accesible en toda la aplicación
+import { CartProvider } from "./context/CartContext";
 
 function App() {
-  const [products, setProducts] = useState<{ anillos: Product[]; collares: Product[]; aros: Product[] }>({
+  const [products, setProducts] = useState<{ 
+    anillos: Product[]; 
+    collares: Product[]; 
+    aros: Product[];
+    pulseras: Product[]; // Nueva categoría añadida
+  }>({
     anillos: [],
     collares: [],
     aros: [],
+    pulseras: [], // Inicialización añadida
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,6 +34,7 @@ function App() {
         anillos: allProducts.filter((p) => p.category === 'anillos'),
         collares: allProducts.filter((p) => p.category === 'collares'),
         aros: allProducts.filter((p) => p.category === 'aros'),
+        pulseras: allProducts.filter((p) => p.category === 'pulseras'), // Filtrado añadido
       });
 
       setLoading(false);
@@ -43,17 +48,16 @@ function App() {
   }, []);
 
   if (loading) {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-gray-600">
-      {/* Spinner animado */}
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-purple-600 mb-4"></div>
-      <p className="text-lg font-semibold">Estamos preparando algo especial para vos...</p>
-    </div>
-  );
-}
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-gray-600">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-purple-600 mb-4"></div>
+        <p className="text-lg font-semibold">Estamos preparando algo especial para vos...</p>
+      </div>
+    );
+  }
 
   return (
-    <CartProvider> {/* 🛒 Envuelve toda la app para que el contexto esté disponible en cualquier componente */}
+    <CartProvider>
       <Router>
         <Layout>
           <Routes>
@@ -77,7 +81,11 @@ function App() {
                   ) : (
                     <p className="text-center text-gray-500">No hay aritos disponibles.</p>
                   )}
-                  
+                  {products.pulseras.length > 0 ? ( // Nueva sección de pulseras
+                    <ProductSection id="pulseras" title="Pulseras" products={products.pulseras} />
+                  ) : (
+                    <p className="text-center text-gray-500">No hay pulseras disponibles.</p>
+                  )}
                 </>
               }
             />

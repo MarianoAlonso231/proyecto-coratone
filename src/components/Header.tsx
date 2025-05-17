@@ -21,7 +21,7 @@ const Header: React.FC = () => {
 
         {/* Menú en desktop */}
         <nav className="hidden md:flex space-x-8">
-          {["anillos", "collares", "aros"].map((item) => (
+          {["anillos", "collares", "aros", "pulseras"].map((item) => (
             <button
               key={item}
               onClick={() => document.getElementById(item)?.scrollIntoView({ behavior: "smooth" })}
@@ -54,7 +54,7 @@ const Header: React.FC = () => {
       {/* Menú desplegable en móviles */}
       <div className={`absolute top-full left-0 w-full bg-white shadow-md transform transition-all duration-300 overflow-hidden ${isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}>
         <nav className="flex flex-col items-center py-2">
-          {["anillos", "collares", "aros"].map((item) => (
+          {["anillos", "collares", "aros", "pulseras"].map((item) => (
             <button
               key={item}
               onClick={() => {
