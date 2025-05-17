@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   
   // Número de WhatsApp al que se enviará el mensaje
-  const whatsappNumber = "5491134567890"; // Reemplaza con tu número real
+  const whatsappNumber = "5493815772509"; // Reemplaza con tu número real
   const whatsappMessage = "Hola, estoy interesado en tus productos. ¿Podrías darme más información?";
   
   // Función para abrir WhatsApp
