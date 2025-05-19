@@ -12,7 +12,7 @@ const AdminPanel = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
-  
+  const [selectedCategory, setSelectedCategory] = useState<string>('todas');
   const [newProduct, setNewProduct] = useState({
     name: '',
     category: 'anillos',
@@ -22,7 +22,6 @@ const AdminPanel = () => {
     description: '',
     imageFile: null as File | null,
   });
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -136,6 +135,11 @@ const AdminPanel = () => {
     setIsDeleting(null);
   };
 
+  // Filtrar productos según la categoría seleccionada
+  const filteredProducts = selectedCategory === 'todas'
+    ? products
+    : products.filter((product) => product.category === selectedCategory);
+
   return isUserAdmin ? (
     <div className="container mx-auto p-6">
       <h2 className="text-2xl font-semibold mb-4">Panel de Administración</h2>
@@ -246,6 +250,22 @@ const AdminPanel = () => {
       <div className="bg-white rounded-lg shadow-md p-6">
         <h3 className="text-lg font-semibold mb-4">Gestionar Productos</h3>
         
+        {/* Filtro por categoría */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Filtrar por categoría:</label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full md:w-64 p-2 border border-gray-300 rounded-md"
+          >
+            <option value="todas">Todas</option>
+            <option value="anillos">Anillos</option>
+            <option value="collares">Collares</option>
+            <option value="aros">Aros</option>
+            <option value="pulseras">Pulseras</option>
+          </select>
+        </div>
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
@@ -259,7 +279,7 @@ const AdminPanel = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr key={product.id} className="h-20 border-b border-gray-200">
                   <td className="pl-4">
                     <img 
