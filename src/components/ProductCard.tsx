@@ -1,4 +1,5 @@
 import React, { useState, useCallback, memo } from "react";
+import { createPortal } from "react-dom";
 import { Product } from "../types/product";
 import { useCart } from "../context/CartContext";
 import { ShoppingCart, X, ZoomIn } from "lucide-react";
@@ -16,40 +17,53 @@ const ImageModal = memo(
     imageUrl: string;
     name: string;
     onClose: () => void;
-  }) => (
-    <div
-      className="fixed inset-0 bg-gray-50 z-[1000] flex items-center justify-center p-4 overflow-y-auto"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="image-modal-title"
-    >
+  }) => {
+    // Prevenir scroll del body cuando el modal está abierto
+    React.useEffect(() => {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }, []);
+
+    const modalContent = (
       <div
-        className="relative w-full max-w-4xl my-auto bg-white rounded-xl ring-1 ring-gray-200 shadow-xl transition-transform animate-fadeIn"
-        onClick={(e) => e.stopPropagation()}
+        className="fixed inset-0 bg-gray-50/90 z-[1000] flex items-center justify-center p-4"
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="image-modal-title"
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white hover:bg-gray-100 rounded-full p-1.5 shadow-md transition-all"
-          aria-label="Cerrar modal"
+        <div
+          className="relative w-full max-w-4xl bg-white rounded-xl ring-1 ring-gray-200 shadow-xl transition-transform animate-fadeIn"
+          onClick={(e) => e.stopPropagation()}
         >
-          <X size={20} className="text-gray-700" />
-        </button>
-        <div className="w-full flex items-center justify-center p-4">
-          <img
-            src={imageUrl || "/placeholder.jpg"}
-            alt={`Ampliación de ${name}`}
-            className="object-contain w-full max-h-[80vh]"
-            id="image-modal-title"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/placeholder.jpg";
-            }}
-            loading="lazy"
-          />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all"
+            aria-label="Cerrar modal"
+          >
+            <X size={24} className="text-gray-700" />
+          </button>
+          <div className="w-full flex items-center justify-center p-4">
+            <img
+              src={imageUrl || "/placeholder.jpg"}
+              alt={`Ampliación de ${name}`}
+              className="object-contain w-full max-h-[85vh]"
+              id="image-modal-title"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder.jpg";
+              }}
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
-    </div>
-  )
+    );
+
+    // Usar createPortal para renderizar el modal fuera de la jerarquía del carrusel
+    return createPortal(modalContent, document.body);
+  }
 );
 
 ImageModal.displayName = "ImageModal";

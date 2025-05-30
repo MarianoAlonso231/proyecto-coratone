@@ -4,12 +4,13 @@ import { supabase } from './lib/supabaseClient';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import ProductSection from './components/ProductSection';
-import { fetchProducts } from './lib/api';
+import { fetchProducts, clearProductsCache } from './lib/api';
 import { Product } from './types/product';
 import Login from './pages/Login';
 import AdminRoute from './routes/AdminRoute';
 import Layout from './components/Layout';
 import { CartProvider } from "./context/CartContext";
+import { clearAuthCache } from './lib/auth';
 
 function App() {
   const [products, setProducts] = useState<{ 
@@ -34,13 +35,19 @@ function App() {
         anillos: allProducts.filter((p) => p.category === 'anillos'),
         collares: allProducts.filter((p) => p.category === 'collares'),
         aros: allProducts.filter((p) => p.category === 'aros'),
-        pulseras: allProducts.filter((p) => p.category === 'pulseras'), // Filtrado añadido
+        pulseras: allProducts.filter((p) => p.category === 'pulseras'),
       });
 
       setLoading(false);
     };
 
     fetchData();
+
+    // Limpiar caché al desmontar
+    return () => {
+      clearProductsCache();
+      clearAuthCache();
+    };
   }, []);
 
   useEffect(() => {

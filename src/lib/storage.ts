@@ -15,19 +15,23 @@ export const uploadImage = async (
   } = {}
 ): Promise<string | null> => {
   try {
-    // Validar tamaño máximo de archivo (por defecto 5MB)
-    const maxSize = (options.maxSizeKB || 5000) * 1024;
+    // Validar tamaño máximo de archivo (reducido a 2MB por defecto)
+    const maxSize = (options.maxSizeKB || 2000) * 1024;
     if (file.size > maxSize) {
-      throw new Error(`❌ El archivo excede el tamaño máximo permitido (${options.maxSizeKB || 5000}KB)`);
+      throw new Error(`❌ El archivo excede el tamaño máximo permitido (${options.maxSizeKB || 2000}KB)`);
     }
 
     // Comprobar si es una imagen y optimizarla
     if (file.type.startsWith('image/')) {
-      file = await optimizeImage(file, options.compressQuality || 0.8, options.resizeWidth);
+      file = await optimizeImage(
+        file, 
+        options.compressQuality || 0.6, // Mayor compresión por defecto
+        options.resizeWidth || 1200 // Ancho máximo por defecto
+      );
       console.log("🔄 Imagen optimizada:", `${(file.size / 1024).toFixed(2)}KB`);
     }
 
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+    const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '-')}`;
     console.log("📸 Nombre del archivo generado:", fileName);
 
     // Crear un ArrayBuffer para lectura más eficiente
@@ -47,16 +51,10 @@ export const uploadImage = async (
 
     // ✅ Obtener la URL pública utilizando el método de Supabase
     const { data: publicUrlData } = supabase.storage.from('products').getPublicUrl(fileName);
-    
-    if (!publicUrlData || !publicUrlData.publicUrl) {
-      throw new Error('❌ No se pudo obtener la URL pública');
-    }
-    
-    console.log("🔗 URL pública generada:", publicUrlData.publicUrl);
-
     return publicUrlData.publicUrl;
-  } catch (err) {
-    console.error("❌ Error en uploadImage:", err);
+
+  } catch (error) {
+    console.error('❌ Error en uploadImage:', error);
     return null;
   }
 };
